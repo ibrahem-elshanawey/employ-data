@@ -24,7 +24,6 @@ function App() {
     setCookie('employeeData', updatedEmployees);
   };
   //search function
-
   const handleSearch = (values) => {
     const { code, name } = values;
 

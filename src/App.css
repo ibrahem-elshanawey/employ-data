@@ -18,6 +18,8 @@
     margin: auto;
     margin-top: 20px;
     width: 100% !important;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 .employ-data h1 {
