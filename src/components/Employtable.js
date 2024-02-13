@@ -3,7 +3,7 @@ import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap';
 import { Field, Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
-const Employtable = ({ employees, handleDelete, handleSearch, filteredEmployees, updateEmployee }) => {
+const Employtable = ({ employees, handleDelete, handleSearch, filteredEmployees, updateEmployee, noDataAvailable, clearSearch }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const handleCloseModal = () => {
@@ -19,23 +19,37 @@ const Employtable = ({ employees, handleDelete, handleSearch, filteredEmployees,
       <div className='employ-data'>
         <h1>employee files Query</h1>
         <Formik
-          initialValues={{ code: '', field: '' }}
+          initialValues={{ code: '', name: '' }}
           onSubmit={handleSearch}
         >
-          <Form>
-            <Row>
-              <Col lg={4} xs={12}>
-                <Field name="code" className="form-control mb-3" placeholder="Employee Code" />
-              </Col>
-              <Col lg={4} xs={12}>
-                <Field name="name" className="form-control mb-3" placeholder="name" />
-              </Col>
-              <Col lg={4}>
-                <Button type="submit" className='me-2'>Search</Button>
-                <Link to="/create" className='btn btn-primary'>Create</Link>
-              </Col>
-            </Row>
-          </Form>
+          {({ values, handleChange }) => (
+            <Form >
+              <Row>
+                <Col lg={4} xs={12}>
+                  <Field name="code" className="form-control mb-3" placeholder="Employee Code" value={values?.code || ''}
+                    onChange={(e) => {
+                      handleChange(e);
+                      if ((e.target.value || '').trim() === '' && (values?.name || '').trim() === '') {
+                        clearSearch();
+                      }
+                    }} />
+                </Col>
+                <Col lg={4} xs={12}>
+                  <Field name="name" className="form-control mb-3" placeholder="name" value={values?.name || ''}
+                    onChange={(e) => {
+                      handleChange(e);
+                      if ((e.target.value || '').trim() === '' && (values?.code || '').trim() === '') {
+                        clearSearch();
+                      }
+                    }} />
+                </Col>
+                <Col lg={4}>
+                  <Button type="submit" className='me-2'>Search</Button>
+                  <Link to="/create" className='btn btn-success'>Create</Link>
+                </Col>
+              </Row>
+            </Form>
+          )}
         </Formik>
         <Table responsive striped>
           <thead>
@@ -58,13 +72,17 @@ const Employtable = ({ employees, handleDelete, handleSearch, filteredEmployees,
                   <td>{employee.date}</td>
                   <td>{employee.jcode}</td>
                   <td>
-                    <Button onClick={() => handleEdit(employee)} className='me-2 mb-2'>Edit</Button>
-                    <Button onClick={() => handleDelete(employee)} className='mb-2'>Delete</Button>
+                    <Button onClick={() => handleEdit(employee)} className='me-2 mb-2' variant="warning">Edit</Button>
+                    <Button variant='danger' onClick={() => handleDelete(employee)} className='mb-2' >Delete</Button>
                   </td>
                 </tr>
               ))
             ) : (
-              employees.length? employees.map((employee) => (
+              noDataAvailable ? (
+                <p className="no-data">
+                  No data available
+                </p>
+              ) : (employees.length ? (employees.map((employee) => (
                 <tr key={employee.code}>
                   <td>{employee.code}</td>
                   <td>{employee.name}</td>
@@ -72,11 +90,13 @@ const Employtable = ({ employees, handleDelete, handleSearch, filteredEmployees,
                   <td>{employee.date}</td>
                   <td>{employee.jcode}</td>
                   <td>
-                    <Button onClick={() => handleEdit(employee)} className='me-2 mb-2'>Edit</Button>
-                    <Button onClick={() => handleDelete(employee)} className='mb-2'>Delete</Button>
+                    <Button variant='warning' onClick={() => handleEdit(employee)} className='me-2 mb-2'>Edit</Button>
+                    <Button variant='danger' onClick={() => handleDelete(employee)} className='mb-2'>Delete</Button>
                   </td>
                 </tr>
-              )):(<p className='no-data'>No data avliable</p>)
+              ))
+              ) : (<p className='no-data'>No Data Available</p>)
+              )
             )}
           </tbody>
         </Table>

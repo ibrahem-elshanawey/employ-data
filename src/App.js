@@ -10,6 +10,7 @@ function App() {
     { code: 'EMP002', name: 'Jane Smith', salary: '2000', date: '20/11/2015', jcode: '3015' },
   ]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const [noDataAvailable, setNoDataAvailable] = useState(false);
   //use cookies
   const [cookies, setCookie] = useCookies(['employeeData']);
   useEffect(() => {
@@ -21,29 +22,29 @@ function App() {
   const handleDelete = (employee) => {
     const updatedEmployees = employees.filter((emp) => emp.code !== employee.code);
     setEmployees(updatedEmployees)
+    setFilteredEmployees(updatedEmployees)
     setCookie('employeeData', updatedEmployees);
   };
   //search function
   const handleSearch = (values) => {
     const { code, name } = values;
-
     const filtered = employees.filter((employee) => {
-
       if (code && employee.code.toLowerCase().includes(code.toLowerCase())) {
         return true;
-      }
-      if (name && (employee.name.toLowerCase().includes(name.toLowerCase()) || employee.salary.toLowerCase().includes(name.toLowerCase()))) {
+      } else if (name && (employee.name.toLowerCase().includes(name.toLowerCase()) || employee.salary.toLowerCase().includes(name.toLowerCase()))) {
         return true;
-      }
-      if (code === '' && name === '') {
-        setFilteredEmployees(employees); // Show all results when both inputs are empty
       }
       return false;
     });
     setFilteredEmployees(filtered);
-
+    setNoDataAvailable(filtered.length === 0);
   };
+  //clear function
 
+  const clearSearch = () => {
+    setFilteredEmployees([]);
+    setNoDataAvailable(false);
+  };
   //create function
   const createemploy = (employ) => {
     setEmployees([...employees, employ]);
@@ -58,7 +59,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Employtable employees={employees} handleDelete={handleDelete} handleSearch={handleSearch} filteredEmployees={filteredEmployees} updateEmployee={updateEmployee} />} ></Route>
+          <Route path="/" element={<Employtable employees={employees} handleDelete={handleDelete} handleSearch={handleSearch} filteredEmployees={filteredEmployees} updateEmployee={updateEmployee} noDataAvailable={noDataAvailable} clearSearch={clearSearch} />} ></Route>
           <Route path="/create" element={<Createemploy createemploy={createemploy} />}>
           </Route>
         </Routes>
