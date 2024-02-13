@@ -1,38 +1,112 @@
 .App {
-  text-align: center;
+    background: #17425E;
+    display: flex;
+    justify-content: center;
+    min-height: 500px;
+    height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.employ-data {
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    max-width: 800px;
+    margin: auto;
+    margin-top: 20px;
+    width: 100% !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.employ-data h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #17425E;
+    margin-bottom: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.employ-data table th {
+    font-weight: bold;
+    font-size: 22px;
+    color: #FAB017;
 }
 
-.App-link {
-  color: #61dafb;
+/*-------------create-employ----------*/
+.employ-create {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    background: #F4F5F9;
+    justify-content: center;
+    padding-top: 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.employ-container {
+    width: 90%;
+}
+
+.employ-container h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #17425E;
+    margin-bottom: 40px;
+}
+
+.form-button {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.form-button button {
+    max-width: 150px;
+    width: 100%;
+    height: 50px;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.form-button button:first-child {
+    background: #942FED;
+    margin-right: 20px;
+}
+
+.form-button button:last-child {
+    background: rgb(245, 21, 21);
+}
+.no-data {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: #17425E;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    padding-bottom: 20px;
+}
+/*----responsive-----*/
+@media(max-width: 991px) {
+    .form-button {
+        justify-content: center;
+    }
 }
